@@ -34,7 +34,7 @@ services:
   frontend:
     depends_on:
       - backend
-    image: cookbook-frontend
-    build: ./frontend/.
+    image: cookbook-app-angular-app
+    build: ./angular-app/.
     ports:
       - $ANGULAR_LOCAL_PORT:$ANGULAR_DOCKER_PORT

@@ -1,0 +1,45 @@
+<div>
+  <div class="col-md-3">
+    <form class="d-flex me-auto">
+      <input class="form-control mr-2" placeholder="Description" #recipeName/>
+      <button class="btn btn-outline-success" type="submit" (click)="add(recipeName.value); recipeName.value=''">
+        Add recipe
+      </button>
+    </form>
+  </div>
+  <h4>My Recipes</h4>
+  <div class="table-container">
+    <table class="table table-primary table-bordered custom-table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Recipe</th>
+        <th>Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="custom-row" *ngFor="let recipe of recipes">
+        <td>{{ recipe.id }}</td>
+        <td>
+          <a href="#" class="custom-link" routerLink="/detail/{{recipe.id}}">
+            <span calss="badge"></span> {{recipe.description}}
+          </a>
+        </td>
+        <td>
+          <button type="button" class="btn-secondary btn" title="delete recipe"
+                  (click)="delete(recipe)">x
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <button mat-button class="btn-info btn" (click)="prevPage()"
+              [disabled]="page === 0">prev
+      </button>
+      <button mat-button class="btn-info btn" (click)="nextPage()"
+              [disabled]="recipes.length % count || recipes.length === 0">next
+      </button>
+    </div>
+  </div>
+</div>
