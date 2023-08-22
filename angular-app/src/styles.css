@@ -2,6 +2,7 @@
 
 html, body {
   height: 100%;
-  background-color: rgba(80%, 80%, 85%);
+  background-color: rgba(29, 29, 29, 1);
+  color: rgba(255, 255, 255, 1);
+  font-family: "Roboto Light", sans-serif;
 }
-body { padding: 20px }

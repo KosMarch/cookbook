@@ -1,92 +1,100 @@
-<div *ngIf="recipe">
-  <h2>{{recipe.description | uppercase}}</h2>
-  <div class="row">
-    <div class="col-md-3">
-      <div class="card" style="width: 18rem;">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">id: {{recipe.id}}</li>
-          <li class="list-group-item">date: {{ moment(recipe.dateCreated).format('YYYY-MM-DD HH:mm:ss') }}</li>
-        </ul>
-      </div>
-    </div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <header></header>
 
-    <div class="col-md-3">
-      <h4>Change recipe:</h4>
-      <input class="form-control mr-2" id="recipe-name" [(ngModel)]="recipe.description" placeholder="name">
-      <button class="btn-outline-secondary btn" (click)="goBack()">go back</button>
-      <button class="btn-outline-success btn" (click)="save()">save</button>
-    </div>
-  </div>
+  <main class="container">
+    <div class="change" *ngIf="recipe">
+      <h1>{{recipe.description | uppercase}}</h1>
 
-  <div class="col-md-3">
-    <h4>Fork: </h4>
-    <form class="d-flex me-auto">
-      <input class="form-control mr-2" placeholder="Description" id="new-recipe" #recipeName/>
-      <button class="btn btn-outline-success" (click)="saveFork(recipeName.value, recipe.id)">add</button>
-    </form>
-  </div>
+      <ul class="data-table">
+        <li class="">id: {{recipe.id}}</li>
+        <li class="">date: {{ moment(recipe.dateCreated).format('YYYY-MM-DD HH:mm:ss') }}</li>
+      </ul>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h4>Parents</h4>
-        <div class="table-container">
-          <table class="table table-primary table-bordered custom-table">
-            <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Recipe</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="custom-row" *ngFor="let recipe of recipesParents">
-              <td>{{ recipe.id }}</td>
-              <td>
-                <a href="#" class="custom-link" routerLink="/detail/{{recipe.id}}">
-                  <span calss="badge"></span> {{recipe.description}}
-                </a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <button mat-button class="btn-info btn" (click)="prevParentsPage()"
-                  [disabled]="pageParents === 0">prev
-          </button>
-          <button mat-button class="btn-info btn" (click)="nextParentsPage()"
-                  [disabled]="recipesParents.length % count || recipesParents.length === 0">next
-          </button>
-        </div>
+      <h2>Change recipe:</h2>
+      <div class="input-2">
+        <input class="change-input" id="recipe-name" [(ngModel)]="recipe.description" placeholder="name">
+        <button class="change-save-button" (click)="save()">✔</button>
       </div>
 
-      <div class="col-md-6">
-        <h4>Children</h4>
-        <div class="table-container">
-          <table class="table table-primary table-bordered custom-table">
-            <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Recipe</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="custom-row" *ngFor="let recipe of recipesChildren">
-              <td>{{ recipe.id }}</td>
-              <td>
-                <a href="#" class="custom-link" routerLink="/detail/{{recipe.id}}">
-                  <span calss="badge"></span> {{recipe.description}}
-                </a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <button mat-button class="btn-info btn" (click)="prevChildrenPage()"
-                  [disabled]="pageChildren === 0">prev
-          </button>
-          <button mat-button class="btn-info btn" (click)="nextChildrenPage()"
-                  [disabled]="recipesChildren.length % count || recipesChildren.length === 0">next
-          </button>
-        </div>
-      </div>
+      <textarea class="create-text" rows="5" placeholder="Description"></textarea>
     </div>
-  </div>
-</div>
+
+    <div class="create-fork" *ngIf="recipe">
+      <h2>Fork: </h2>
+      <div class="input-2">
+        <input class="change-input" placeholder="Description" id="new-recipe" #recipeName/>
+        <button class="change-save-button" (click)="saveFork(recipeName.value, recipe.id)">+</button>
+      </div>
+      <textarea class="create-text" rows="5" placeholder="Description"></textarea>
+    </div>
+
+    <div class="info-1">
+      <h1>Parents</h1>
+
+      <table class="info-table">
+        <thead>
+        <tr class="info-table-tr">
+          <th class="info-table-th info-table-th-left">#</th>
+          <th class="info-table-th info-table-th-right">Recipe</th>
+        </tr>
+        </thead>
+        <tr class="info-table-tr" *ngFor="let recipe of recipesParents">
+          <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
+          <td class="info-table-td info-table-td-big info-table-td-right">
+            <a class="info-table-link" href="#" routerLink="/detail/{{recipe.id}}">
+              {{recipe.description}}
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <button class="button button-left" (click)="prevParentsPage()"
+              [disabled]="pageParents === 0">prev
+      </button>
+      <button class="button button-right" (click)="nextParentsPage()"
+              [disabled]="recipesParents.length % count || recipesParents.length === 0">next
+      </button>
+    </div>
+
+
+    <div class="info-1">
+      <h1>Children</h1>
+
+      <table class="info-table">
+        <thead>
+        <tr class="info-table-tr">
+          <th class="info-table-th info-table-th-left">#</th>
+          <th class="info-table-th info-table-th-right">Recipe</th>
+        </tr>
+        </thead>
+        <tr class="info-table-tr" *ngFor="let recipe of recipesChildren">
+          <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
+          <td class="info-table-td info-table-td-big info-table-td-right">
+            <a class="info-table-link" href="#" routerLink="/detail/{{recipe.id}}">
+              {{recipe.description}}
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <button class="button button-left" (click)="prevChildrenPage()"
+              [disabled]="pageChildren === 0">prev
+      </button>
+      <button class="button button-right" (click)="nextChildrenPage()"
+              [disabled]="recipesChildren.length % count || recipesChildren.length === 0">next
+      </button>
+    </div>
+  </main>
+
+  <footer></footer>
+</body>
+</html>

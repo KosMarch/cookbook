@@ -1,45 +1,60 @@
-<div>
-  <div class="col-md-3">
-    <form class="d-flex me-auto">
-      <input class="form-control mr-2" placeholder="Description" #recipeName/>
-      <button class="btn btn-outline-success" type="submit" (click)="add(recipeName.value); recipeName.value=''">
-        Add recipe
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <header></header>
+
+  <main class="container">
+    <div class="create">
+      <h1>Create new recipe</h1>
+      <input class="create-input" placeholder="Title" #recipeName/>
+      <button class="create-button-add" type="submit" (click)="add(recipeName.value); recipeName.value=''">
+        +
       </button>
-    </form>
-  </div>
-  <h4>My Recipes</h4>
-  <div class="table-container">
-    <table class="table table-primary table-bordered custom-table">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>Recipe</th>
-        <th>Delete</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="custom-row" *ngFor="let recipe of recipes">
-        <td>{{ recipe.id }}</td>
-        <td>
-          <a href="#" class="custom-link" routerLink="/detail/{{recipe.id}}">
-            <span calss="badge"></span> {{recipe.description}}
-          </a>
-        </td>
-        <td>
-          <button type="button" class="btn-secondary btn" title="delete recipe"
-                  (click)="delete(recipe)">x
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="d-flex justify-content-between p-2">
-      <button mat-button class="btn-info btn" (click)="prevPage()"
+      <textarea class="create-text" rows="5" placeholder="Description"></textarea>
+    </div>
+
+    <div class="info">
+      <h1>All Recipes</h1>
+
+      <table class="info-table">
+        <thead>
+        <tr class="info-table-tr">
+          <th class="info-table-th info-table-th-left">#</th>
+          <th class="info-table-th">Title</th>
+          <th class="info-table-th info-table-th-right">Delete</th>
+        </tr>
+        </thead>
+        <tr class="info-table-tr" *ngFor="let recipe of recipes">
+          <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
+          <td class="info-table-td info-table-td-big">
+            <a class="info-table-link" href="#" routerLink="/detail/{{recipe.id}}">
+              {{recipe.description}}
+            </a>
+          </td>
+          <td class="info-table-td info-table-td-small info-table-td-right">
+            <button class="delete-button" type="button" title="delete recipe"
+                    (click)="delete(recipe)">✖
+            </button>
+          </td>
+        </tr>
+      </table>
+
+      <button class="button button-left" (click)="prevPage()"
               [disabled]="page === 0">prev
       </button>
-      <button mat-button class="btn-info btn" (click)="nextPage()"
+      <button class="button button-right" (click)="nextPage()"
               [disabled]="recipes.length % count || recipes.length === 0">next
       </button>
     </div>
-  </div>
-</div>
+  </main>
+
+  <footer></footer>
+</body>
+</html>
