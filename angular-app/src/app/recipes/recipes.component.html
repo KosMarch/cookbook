@@ -8,13 +8,10 @@
   <title>Document</title>
 </head>
 <body>
-
-  <header>
-
-  </header>
+  <header></header>
 
   <main class="container">
-    <div class="search">
+    <div class="create">
       <h1>Create new recipe</h1>
       <input class="create-input" placeholder="Title" #recipeName/>
       <button class="create-button-add" type="submit" (click)="add(recipeName.value); recipeName.value=''">
@@ -24,7 +21,7 @@
     </div>
 
     <div class="info">
-    <h1>All Recipes</h1>
+      <h1>All Recipes</h1>
 
       <table class="info-table">
         <thead>
@@ -34,48 +31,30 @@
           <th class="info-table-th info-table-th-right">Delete</th>
         </tr>
         </thead>
-
-
-      <tr class="info-table-tr" *ngFor="let recipe of recipes">
-        <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
-        <td class="info-table-td info-table-td-big">
-          <a class="info-table-link" href="#"  routerLink="/detail/{{recipe.id}}">
-            {{recipe.description}}
-          </a>
-        </td>
-        <td class="info-table-td info-table-td-small info-table-td-right">
-          <button class="delete-button" type="button" title="delete recipe"
-                  (click)="delete(recipe)">✖
-          </button>
-        </td>
-      </tr>
-
+        <tr class="info-table-tr" *ngFor="let recipe of recipes">
+          <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
+          <td class="info-table-td info-table-td-big">
+            <a class="info-table-link" href="#" routerLink="/detail/{{recipe.id}}">
+              {{recipe.description}}
+            </a>
+          </td>
+          <td class="info-table-td info-table-td-small info-table-td-right">
+            <button class="delete-button" type="button" title="delete recipe"
+                    (click)="delete(recipe)">✖
+            </button>
+          </td>
+        </tr>
       </table>
 
       <button class="button button-left" (click)="prevPage()"
               [disabled]="page === 0">prev
       </button>
       <button class="button button-right" (click)="nextPage()"
-               [disabled]="recipes.length % count || recipes.length === 0">next
+              [disabled]="recipes.length % count || recipes.length === 0">next
       </button>
-
     </div>
-
   </main>
 
-  <footer>
-
-  </footer>
-
+  <footer></footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
