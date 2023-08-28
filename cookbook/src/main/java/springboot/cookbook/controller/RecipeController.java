@@ -35,7 +35,7 @@ public class RecipeController {
     public List<RecipeResponseDto> findAll(
             @RequestParam(defaultValue = "20") Integer count,
             @RequestParam (defaultValue = "0") Integer page,
-            @RequestParam (defaultValue = "description") String sortBy) {
+            @RequestParam (defaultValue = "title") String sortBy) {
         Sort sort = Sort.by(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return recipeService.findAll(pageRequest).stream()
@@ -68,7 +68,7 @@ public class RecipeController {
             @PathVariable Long id,
             @RequestParam (defaultValue = "10") Integer count,
             @RequestParam (defaultValue = "0") Integer page,
-            @RequestParam (defaultValue = "description") String sortBy) {
+            @RequestParam (defaultValue = "title") String sortBy) {
         Sort sort = Sort.by(sortBy);
         PageRequest pageRequest = PageRequest.of(page, count, sort);
         return recipeService.findAllByParentId(id, pageRequest)

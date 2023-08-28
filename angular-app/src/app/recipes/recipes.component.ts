@@ -25,10 +25,11 @@ export class RecipesComponent {
       .subscribe(recipes => this.recipes = recipes);
   }
 
-  add(description: string): void {
+  add(title: string, description: string): void {
+    title = title.trim();
     description = description.trim();
-    if (!description) { return; }
-    this.recipeService.addRecipe({ description } as Recipe)
+    if (!title) { return; }
+    this.recipeService.addRecipe({ title: title, description: description } as Recipe)
       .subscribe(recipe => {
         this.recipes.push(recipe)
     });
@@ -36,7 +37,8 @@ export class RecipesComponent {
 
   delete(recipe: Recipe): void {
     this.recipes = this.recipes.filter(r => r !== recipe);
-    this.recipeService.deleteRecipe(recipe.id).subscribe();
+    this.recipeService.deleteRecipe(recipe.id)
+      .subscribe(() => this.getRecipes());
   }
 
   nextPage(): void {

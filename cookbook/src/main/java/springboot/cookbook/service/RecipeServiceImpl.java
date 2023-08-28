@@ -1,7 +1,6 @@
 package springboot.cookbook.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -23,7 +22,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> findAll(PageRequest pageRequest) {
-        return recipeRepository.findAll(pageRequest).toList();
+        return recipeRepository.getAllBy(pageRequest);
     }
 
     @Override
@@ -34,12 +33,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> findAllById(Long id, PageRequest pageRequest) {
         List<Recipe> recipes = new ArrayList<>();
-        Long currentId = recipeRepository.getReferenceById(id).getParentId();
-        while (currentId != null) {
-            recipes.add(recipeRepository.getReferenceById(currentId));
-            currentId = recipeRepository.getReferenceById(currentId).getParentId();
+        Recipe currentRecipe = findById(id).getParent();
+
+        while (currentRecipe != null) {
+            recipes.add(currentRecipe);
+            currentRecipe = currentRecipe.getParent();
         }
-        recipes.sort(Comparator.comparing(Recipe::getDescription));
+        recipes.sort(Comparator.comparing(Recipe::getTitle));
 
         int fromIndex = pageRequest.getPageNumber() * pageRequest.getPageSize();
         int toIndex = Math.min(fromIndex + pageRequest.getPageSize(), recipes.size());
@@ -49,7 +49,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long id) {
-        return recipeRepository.getReferenceById(id);
+        return recipeRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException("Can't find recipe with id " + id));
     }
 
     @Override
@@ -61,18 +62,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void delete(Long id) {
-        smartDelete(id);
-    }
-
-    @Transactional
-    public void smartDelete(Long id) {
-        Long newId = recipeRepository.getReferenceById(id).getParentId();
-
-        recipeRepository.findAllByParentId(id)
-                .stream()
-                .peek(r -> r.setParentId(newId))
-                .forEach(this::update);
-
         recipeRepository.deleteById(id);
     }
 }

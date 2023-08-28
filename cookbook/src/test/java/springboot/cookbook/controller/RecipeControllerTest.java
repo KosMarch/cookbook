@@ -52,7 +52,7 @@ public class RecipeControllerTest {
         RecipeResponseDto mockResponse2 = new RecipeResponseDto();
         mockResponse2.setId(2L);
         mockResponse2.setDateCreated(LocalDateTime.of(2003,7,16,9,30));
-        mockResponse2.setDescription("Description 2");
+        mockResponse2.setTitle("Description 2");
 
         Mockito.when(recipeService.findAll(Mockito.any())).thenReturn(mockRecipes);
         Mockito.when(mapper.toDto(mockRecipes.get(0))).thenReturn(getDefaultResponse());
@@ -62,10 +62,10 @@ public class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].dateCreated").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("Description 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Description 1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].dateCreated").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].description").value("Description 2"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].title").value("Description 2"));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(recipeId))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dateCreated").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description 1"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Description 1"));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class RecipeControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dateCreated").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Description 1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L));
     }
 
@@ -120,13 +120,13 @@ public class RecipeControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dateCreated").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Description 1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L));
     }
 
     private RecipeRequestDto getDefaultRequest() {
         RecipeRequestDto mockRequest = new RecipeRequestDto();
-        mockRequest.setDescription("Description 1");
+        mockRequest.setTitle("Description 1");
         return mockRequest;
     }
 
@@ -138,7 +138,7 @@ public class RecipeControllerTest {
         RecipeResponseDto mockResponse = new RecipeResponseDto();
         mockResponse.setId(1L);
         mockResponse.setDateCreated(LocalDateTime.of(2023,7,16,9,30));
-        mockResponse.setDescription("Description 1");
+        mockResponse.setTitle("Description 1");
         return mockResponse;
     }
 }

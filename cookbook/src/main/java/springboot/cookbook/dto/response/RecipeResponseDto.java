@@ -6,7 +6,8 @@ import lombok.Data;
 @Data
 public class RecipeResponseDto {
     private Long id;
-    private LocalDateTime dateCreated;
+    private String title;
     private String description;
+    private LocalDateTime dateCreated;
     private Long parentId;
 }
