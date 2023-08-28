@@ -59,13 +59,12 @@ export class RecipeDetailComponent {
     }
   }
 
-  saveFork(description: string, parentId: number): void {
-    description = description.trim();
-    if (!description) { return; }
-    this.recipeService.addRecipe({ description, parentId} as Recipe)
-      .subscribe(recipe => {
-        this.recipe = recipe
-      });
+  saveFork(title: string, parentId: number, recipeDescription: string): void {
+    title = title.trim();
+    recipeDescription = recipeDescription.trim();
+    if (!title) { return; }
+    this.recipeService.addRecipe({ title: title, parentId, description: recipeDescription} as Recipe)
+      .subscribe(() => this.goBack());
   }
 
   getParentsRecipesById(id: number): void {

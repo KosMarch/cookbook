@@ -12,7 +12,7 @@
 
   <main class="container">
     <div class="change" *ngIf="recipe">
-      <h1>{{recipe.description | uppercase}}</h1>
+      <h1>{{recipe.title | uppercase}}</h1>
 
       <ul class="data-table">
         <li class="">id: {{recipe.id}}</li>
@@ -21,20 +21,20 @@
 
       <h2>Change recipe:</h2>
       <div class="input-2">
-        <input class="change-input" id="recipe-name" [(ngModel)]="recipe.description" placeholder="name">
-        <button class="change-save-button" (click)="save()">✔</button>
+        <input class="change-input" id="recipe-name" [(ngModel)]="recipe.title" placeholder="Title">
+        <button class="change-save-button" type="button" (click)="save()">✔</button>
       </div>
 
-      <textarea class="create-text" rows="5" placeholder="Description"></textarea>
+      <textarea class="create-text" rows="5" [(ngModel)]="recipe.description" placeholder="Description"></textarea>
     </div>
 
     <div class="create-fork" *ngIf="recipe">
       <h2>Fork: </h2>
       <div class="input-2">
-        <input class="change-input" placeholder="Description" id="new-recipe" #recipeName/>
-        <button class="change-save-button" (click)="saveFork(recipeName.value, recipe.id)">+</button>
+        <input class="change-input" placeholder="Title" id="new-recipe" #recipeName/>
+        <button class="change-save-button" (click)="saveFork(recipeName.value, recipe.id, recipeDescription.value)">+</button>
       </div>
-      <textarea class="create-text" rows="5" placeholder="Description"></textarea>
+      <textarea class="create-text" rows="5" placeholder="Description" #recipeDescription></textarea>
     </div>
 
     <div class="info-1">
@@ -51,7 +51,7 @@
           <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
           <td class="info-table-td info-table-td-big info-table-td-right">
             <a class="info-table-link" href="#" routerLink="/detail/{{recipe.id}}">
-              {{recipe.description}}
+              {{recipe.title}}
             </a>
           </td>
         </tr>
@@ -80,7 +80,7 @@
           <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
           <td class="info-table-td info-table-td-big info-table-td-right">
             <a class="info-table-link" href="#" routerLink="/detail/{{recipe.id}}">
-              {{recipe.description}}
+              {{recipe.title}}
             </a>
           </td>
         </tr>

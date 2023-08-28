@@ -14,10 +14,11 @@
     <div class="create">
       <h1>Create new recipe</h1>
       <input class="create-input" placeholder="Title" #recipeName/>
-      <button class="create-button-add" type="submit" (click)="add(recipeName.value); recipeName.value=''">
+      <button class="create-button-add" type="submit"
+              (click)="add(recipeName.value, recipeDescription.value); recipeName.value=''">
         +
       </button>
-      <textarea class="create-text" rows="5" placeholder="Description"></textarea>
+      <textarea class="create-text" rows="5" placeholder="Description" #recipeDescription></textarea>
     </div>
 
     <div class="info">
@@ -35,7 +36,7 @@
           <td class="info-table-td info-table-td-small info-table-td-left">{{ recipe.id }}</td>
           <td class="info-table-td info-table-td-big">
             <a class="info-table-link" href="#" routerLink="/detail/{{recipe.id}}">
-              {{recipe.description}}
+              {{recipe.title}}
             </a>
           </td>
           <td class="info-table-td info-table-td-small info-table-td-right">

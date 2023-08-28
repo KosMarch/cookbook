@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import springboot.cookbook.container.MySQLJpaContainerExtension;
 import springboot.cookbook.model.Recipe;
 import springboot.cookbook.repository.RecipeRepository;
@@ -40,27 +39,29 @@ class RecipeServiceImplTest {
         Recipe savedRecipe = recipeService.createRecipe(recipe);
 
         Assertions.assertEquals(recipe.getDateCreated(), savedRecipe.getDateCreated());
-        Assertions.assertEquals(recipe.getDescription(), savedRecipe.getDescription());
-        Assertions.assertEquals(recipe.getParentId(), savedRecipe.getParentId());
+        Assertions.assertEquals(recipe.getTitle(), savedRecipe.getTitle());
+        Assertions.assertEquals(recipe.getChildren(), savedRecipe.getChildren());
     }
 
     @Test
     void findAllById_Ok() {
-        Recipe parentRecipe = getDefaultRecipe();
-        Recipe childRecipe1 = new Recipe(2L, LocalDateTime.of(2023,7,16,9,30), "Child Recipe 1", 1L);
+        Recipe recipe1 = new Recipe(1L, LocalDateTime.of(2003,7,16,9,30), "Recipe 1", null);
+        Recipe recipe2 = new Recipe(2L, LocalDateTime.of(2003,7,16,9,30), "Recipe 2", recipe1);
+        Recipe recipe3 = new Recipe(3L, LocalDateTime.of(2003,7,16,9,30), "Recipe 3", recipe2);
 
-        Recipe childRecipe2 = new Recipe(3L, LocalDateTime.of(2023,7,16,9,30), "Child Recipe 2", 2L);
+        Mockito.when(recipeRepository.findById(3L)).thenReturn(Optional.of(recipe3));
 
-        Mockito.when(recipeRepository.getReferenceById(1L)).thenReturn(parentRecipe);
-        Mockito.when(recipeRepository.getReferenceById(2L)).thenReturn(childRecipe1);
-        Mockito.when(recipeRepository.getReferenceById(3L)).thenReturn(childRecipe2);
+        int pageNumber = 0;
+        int pageSize = 2;
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 
-        PageRequest pageRequest = PageRequest.of(0, 2, Sort.by("description"));
         List<Recipe> result = recipeService.findAllById(3L, pageRequest);
 
         Assertions.assertEquals(2, result.size());
-        Assertions.assertEquals(childRecipe1, result.get(0));
-        Assertions.assertEquals(parentRecipe, result.get(1));
+        Assertions.assertEquals(recipe1, result.get(0));
+        Assertions.assertEquals(recipe2, result.get(1));
+
+        Mockito.verify(recipeRepository, Mockito.times(1)).findById(3L);
     }
 
     @Test
@@ -95,7 +96,7 @@ class RecipeServiceImplTest {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         recipe.setDateCreated(LocalDateTime.of(2023,7,16,9,30));
-        recipe.setDescription("Test Description");
+        recipe.setTitle("Test Description");
         return recipe;
     }
 }
